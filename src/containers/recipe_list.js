@@ -9,11 +9,12 @@ class RecipeList extends Component {
     console.log(recipe);
     const { name, ingredients } = recipe;
     const noSpacesName = name.replace(' ', '');
-    const ingredientsList = ingredients.split(',').map(ingredient => <li key={ingredient}>{ingredient.trim()}</li>);
+    const ingredientsList = ingredients.split(',').map((ingredient, i) => <li key={i}>{ingredient.trim()}</li>);
     console.log('name',name);
     console.log('ing', ingredients);
     console.log('no', noSpacesName);
     console.log('ingList', ingredientsList);
+
     return(
       <div key={i} className="card">
         <div className="card-header" role="tab" id={`heading${i}`}>
@@ -41,18 +42,11 @@ class RecipeList extends Component {
     );
   }
 
-  // renderButtonClick() {
-  //   return (
-  //   );
-  // }
-
-
   render() {
     const { recipes } = this.props;
     return (
       <div className="container">
         <div id="accordion" role="tablist">
-          {/* {recipes.map(this.renderRecipes)} */}
           {recipes.map((recipe,i) => this.renderRecipes(recipe,i))}
         </div>
         <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#recipeModal">Add Recipe</button>

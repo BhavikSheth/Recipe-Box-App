@@ -26,6 +26,19 @@ class Modal extends Component {
     });
   }
 
+  handleSubmit = () => {
+    const { name, ingredients } = this.state;
+    const recipeName = name.length ? name : "Add Recipe Name";
+    const recipeIngredients = ingredients.length ? ingredients : 'Add ingredients by clicking edit below';
+    
+    this.props.addRecipe(recipeName, recipeIngredients);
+
+    this.setState({
+      name: '',
+      ingredients: ''
+    });
+  }
+
   render() {
     console.log('test');
     return (
@@ -52,7 +65,7 @@ class Modal extends Component {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={() => this.props.addRecipe(this.state.name, this.state.ingredients)}>Add Recipe</button>
+              <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.handleSubmit}>Add Recipe</button>
             </div>
           </div>
         </div>
