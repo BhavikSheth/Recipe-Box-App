@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { deleteRecipe } from '../actions';
 import { connect } from 'react-redux';
-import Modal from './modal';
+import AddRecipeModal from './add_recipe_modal';
 
 class RecipeList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   renderRecipes = (recipe,i) => {
     console.log(recipe);
     const { name, ingredients } = recipe;
@@ -60,7 +56,7 @@ class RecipeList extends Component {
           {recipes.map((recipe,i) => this.renderRecipes(recipe,i))}
         </div>
         <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#recipeModal">Add Recipe</button>
-        <Modal />
+        <AddRecipeModal />
       </div>
     );
   }
