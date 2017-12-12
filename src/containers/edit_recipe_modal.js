@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { addRecipe } from '../actions/index';
+import { editRecipe } from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -29,23 +29,31 @@ class Modal extends Component {
     const { name, ingredients } = this.state;
     const recipeName = name.length ? name : "Add Recipe Name";
     const recipeIngredients = ingredients.length ? ingredients : 'Add ingredients by clicking edit below';
-
-    this.props.addRecipe(recipeName, recipeIngredients);
+    
+    this.props.editRecipe(this.props.name, recipeName, recipeIngredients);
 
     this.setState({
-      name: '',
-      ingredients: ''
+      name: this.state.name,
+      ingredients: this.state.ingredients
+    });
+  }
+
+  componentDidMount() {
+    this.setState({
+      name: this.props.name,
+      ingredients: this.props.ingredients
     });
   }
 
   render() {
-    console.log('test');
+    console.log('test edit modal');
+    const { i } = this.props;
     return (
-      <div className="modal fade" id="addRecipeModal" tabIndex="-1" role="dialog" aria-labelledby="addRecipeModalLabel" aria-hidden="true">
+      <div className="modal fade" id={`editRecipeModal${i}`} tabIndex="-1" role="dialog" aria-labelledby="editRecipeModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="addRecipeModalLabel">Add a Recipe</h5>
+              <h5 className="modal-title" id="editRecipeModalLabel">Edit Recipe</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -64,7 +72,7 @@ class Modal extends Component {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.handleSubmit}>Add Recipe</button>
+              <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.handleSubmit}>Edit Recipe</button>
             </div>
           </div>
         </div>
@@ -74,7 +82,7 @@ class Modal extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addRecipe }, dispatch);
+  return bindActionCreators({ editRecipe }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(Modal);

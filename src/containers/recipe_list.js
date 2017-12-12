@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { deleteRecipe } from '../actions';
 import { connect } from 'react-redux';
 import AddRecipeModal from './add_recipe_modal';
+import EditRecipeModal from './edit_recipe_modal';
 
 class RecipeList extends Component {
   renderRecipes = (recipe,i) => {
@@ -30,9 +31,10 @@ class RecipeList extends Component {
             <ol>
               {ingredientsList}
             </ol>
-            <button type="button" className="btn btn-primary">
+            <button type="button" className="btn btn-primary" data-toggle="modal" data-target={`#editRecipeModal${i}`}>
               Edit
             </button>
+            <EditRecipeModal name={name} ingredients={ingredients} i={i} />
             <button type="button" className="btn btn-danger" onClick={() => this.props.deleteRecipe(name)}>
               Delete
             </button>
@@ -49,7 +51,7 @@ class RecipeList extends Component {
         <div id="accordion" role="tablist">
           {recipes.map((recipe,i) => this.renderRecipes(recipe,i))}
         </div>
-        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#recipeModal">Add Recipe</button>
+        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#addRecipeModal">Add Recipe</button>
         <AddRecipeModal />
       </div>
     );
