@@ -39,7 +39,6 @@ class Modal extends Component {
   }
 
   render() {
-    console.log('test');
     return (
       <div className="modal fade" id="addRecipeModal" tabIndex="-1" role="dialog" aria-labelledby="addRecipeModalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">

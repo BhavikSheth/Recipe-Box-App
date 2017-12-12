@@ -46,7 +46,6 @@ class Modal extends Component {
   }
 
   render() {
-    console.log('test edit modal');
     const { i } = this.props;
     return (
       <div className="modal fade" id={`editRecipeModal${i}`} tabIndex="-1" role="dialog" aria-labelledby="editRecipeModalLabel" aria-hidden="true">

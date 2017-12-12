@@ -7,14 +7,8 @@ import EditRecipeModal from './edit_recipe_modal';
 
 class RecipeList extends Component {
   renderRecipes = (recipe,i) => {
-    console.log(recipe);
     const { name, ingredients } = recipe;
-    const noSpacesName = name.replace(' ', '');
     const ingredientsList = ingredients.split(',').map((ingredient, i) => <li key={i}>{ingredient.trim()}</li>);
-    console.log('name',name);
-    console.log('ing', ingredients);
-    console.log('no', noSpacesName);
-    console.log('ingList', ingredientsList);
 
     return(
       <div key={i} className="card">
