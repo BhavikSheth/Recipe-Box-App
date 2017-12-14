@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { editRecipe } from '../actions/index';
-import { bindActionCreators } from 'redux';
+import { addRecipe, editRecipe } from '../actions';
 import { connect } from 'react-redux';
 
 class Modal extends Component {
@@ -13,10 +12,34 @@ class Modal extends Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      name: this.props.name,
+      ingredients: this.props.ingredients
+    });
+  }
+
   onNameChange = (event) => {
     this.setState({
       name: event.target.value
     });
+  }
+
+  handleSubmit = () => {
+    const { name, ingredients } = this.state;
+    const recipeName = name.length ? name : 'Add recipe name';
+    const recipeIngredients = ingredients.length ? ingredients : 'Add list of ingredients';
+
+    if (this.props.id === 'addRecipeModal') {
+      this.props.addRecipe(recipeName, recipeIngredients);
+
+      this.setState({
+        name: '',
+        ingredients: ''
+      });
+    } else {
+      this.props.editRecipe(recipeName, recipeIngredients, this.props.name);
+    }
   }
 
   onIngredientsChange = (event) => {
@@ -25,34 +48,14 @@ class Modal extends Component {
     });
   }
 
-  handleSubmit = () => {
-    const { name, ingredients } = this.state;
-    const recipeName = name.length ? name : "Add Recipe Name";
-    const recipeIngredients = ingredients.length ? ingredients : 'Add ingredients by clicking edit below';
-    
-    this.props.editRecipe(this.props.name, recipeName, recipeIngredients);
-
-    this.setState({
-      name: this.state.name,
-      ingredients: this.state.ingredients
-    });
-  }
-
-  componentDidMount() {
-    this.setState({
-      name: this.props.name,
-      ingredients: this.props.ingredients
-    });
-  }
-
   render() {
-    const { i } = this.props;
+    const { id, title } = this.props;
     return (
-      <div className="modal fade" id={`editRecipeModal${i}`} tabIndex="-1" role="dialog" aria-labelledby="editRecipeModalLabel" aria-hidden="true">
+      <div className="modal fade" id={id} tabIndex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="editRecipeModalLabel">Edit Recipe</h5>
+              <h5 className="modal-title" id="modalLabel">{title}</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -71,7 +74,7 @@ class Modal extends Component {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.handleSubmit}>Edit Recipe</button>
+              <button type="button" className="btn btn-primary"  data-dismiss="modal" onClick={this.handleSubmit}>{title}</button>
             </div>
           </div>
         </div>
@@ -80,8 +83,4 @@ class Modal extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ editRecipe }, dispatch);
-}
-
-export default connect(null, mapDispatchToProps)(Modal);
+export default connect(null, { addRecipe, editRecipe })(Modal);
