@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { deleteRecipe } from '../actions';
 import { connect } from 'react-redux';
 import Modal from './modal';
@@ -55,8 +54,4 @@ function mapStateToProps({ recipes }) {
   return { recipes };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ deleteRecipe }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeList);
+export default connect(mapStateToProps, {  deleteRecipe })(RecipeList);
