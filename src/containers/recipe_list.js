@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Modal from './modal';
-import Recipe from './recipe';
+import Modal from '../components/modal';
+import Recipe from '../components/recipe';
+import { changeName, changeIngredients } from '../actions';
 
 class RecipeList extends Component {
   renderRecipe = (recipe,i) => {
     const { name, ingredients } = recipe;
-    const ingredientsList = ingredients.split(/\s*,\s*/g).map((ingredient, i) => <li key={i}>{ingredient}</li>);
 
     return(
-      <Recipe key={i} name={name} ingredients={ingredients} ingredientsList={ingredientsList} i={i} />
+      <Recipe key={i} name={name} ingredients={ingredients} i={i} />
     );
+  }
+
+  handleAddButtonClick = () => {
+    const { changeName, changeIngredients } = this.props;
+
+    changeName('');
+    changeIngredients('');
   }
 
   render() {
@@ -20,7 +27,7 @@ class RecipeList extends Component {
         <div id="accordion" role="tablist">
           {recipes.map((recipe,i) => this.renderRecipe(recipe,i))}
         </div>
-        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#addRecipeModal">Add Recipe</button>
+        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#addRecipeModal" onClick={this.handleAddButtonClick}>Add Recipe</button>
         <Modal id="addRecipeModal" title="Add Recipe" name='' ingredients='' />
       </div>
     );
@@ -31,4 +38,4 @@ function mapStateToProps({ recipes }) {
   return { recipes };
 }
 
-export default connect(mapStateToProps)(RecipeList);
+export default connect(mapStateToProps, { changeName, changeIngredients })(RecipeList);
